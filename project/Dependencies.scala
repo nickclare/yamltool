@@ -15,35 +15,41 @@
  */
 
 import sbt._
+import scala.languageFeature.implicitConversions
 
 object Dependencies {
 
+  /* A simple attempt to make declaring lists of dependencies easier */
+
   type Deps = Seq[ModuleID]
 
-  /* A simple attempt to make declaring lists of dependencies easier */
   implicit def depToList(dep: ModuleID): Deps = Seq(dep)
 
   implicit class DepOps(val deps: Seq[Deps]) extends AnyVal {
     def flatten: Seq[ModuleID] = deps.flatten
   }
 
+  /* Dependencies */
+
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.0.3"
 
+  lazy val scopt = "com.github.scopt" %% "scopt" % "3.7.0"
+
   object Cats {
-    val core = "org.typelevel" %% "cats-core" % "1.0.0-MF"
+    lazy val core = "org.typelevel" %% "cats-core" % "1.0.0-MF"
   }
 
   object Circe {
     val version = "0.9.0-M1"
     def circeDep(id: String) = "io.circe" %% s"circe-$id" % version
 
-    val core = circeDep("core")
-    val generic = circeDep("generic")
-    val parser = circeDep("parser")
+    lazy val core = circeDep("core")
+    lazy val generic = circeDep("generic")
+    lazy val parser = circeDep("parser")
 
-    val yaml = "io.circe" %% "circe-yaml" % "0.7.0-M1"
+    lazy val yaml = "io.circe" %% "circe-yaml" % "0.7.0-M1"
 
-    val all = Seq(core, generic, parser, yaml)
+    lazy val all = Seq(core, generic, parser, yaml)
   }
 
 }
