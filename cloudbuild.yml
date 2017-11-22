@@ -1,0 +1,5 @@
+steps:
+- name: 'hseeberger/scala-sbt'
+  args: ['sbt', 'package']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', 'target/scala-2.12/*.jar', 'gs://daikon-build-results/']
